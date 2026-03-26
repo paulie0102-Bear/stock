@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人資產儀表板</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .page { display: none; }
+        .page.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased text-gray-900">
+
+    <div id="main-hub" class="page active min-h-screen flex flex-col items-center justify-center p-6">
+        <h1 class="text-3xl font-bold mb-8 text-blue-800">資產管理中心</h1>
+        
+        <div class="grid grid-cols-1 gap-6 w-full max-w-xs">
+            <button onclick="showPage('stock-page')" class="flex items-center justify-between bg-white p-6 rounded-2xl shadow-lg active:scale-95 transition-transform">
+                <div class="flex items-center">
+                    <div class="bg-blue-100 p-3 rounded-xl mr-4">
+                        <i class="fa-solid fa-chart-line text-blue-600 text-xl"></i>
+                    </div>
+                    <span class="text-lg font-semibold">股票儀表板</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-400"></i>
+            </button>
+
+            <button onclick="showPage('portfolio-page')" class="flex items-center justify-between bg-white p-6 rounded-2xl shadow-lg active:scale-95 transition-transform">
+                <div class="flex items-center">
+                    <div class="bg-green-100 p-3 rounded-xl mr-4">
+                        <i class="fa-solid fa-briefcase text-green-600 text-xl"></i>
+                    </div>
+                    <span class="text-lg font-semibold">個人持股</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-400"></i>
+            </button>
+
+            <button onclick="showPage('asset-page')" class="flex items-center justify-between bg-white p-6 rounded-2xl shadow-lg active:scale-95 transition-transform">
+                <div class="flex items-center">
+                    <div class="bg-purple-100 p-3 rounded-xl mr-4">
+                        <i class="fa-solid fa-wallet text-purple-600 text-xl"></i>
+                    </div>
+                    <span class="text-lg font-semibold">個人資產</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-400"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="stock-page" class="page min-h-screen bg-white p-6">
+        <nav class="flex items-center mb-6">
+            <button onclick="showPage('main-hub')" class="text-blue-600 mr-4"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+            <h2 class="text-xl font-bold">股票儀表板</h2>
+        </nav>
+        <div class="space-y-4">
+            <input type="text" placeholder="輸入股票代號 (例: 2330)" class="w-full border-2 border-gray-200 p-3 rounded-xl focus:border-blue-500 outline-none">
+            <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md">查詢行情</button>
+            <div class="bg-gray-50 p-10 rounded-2xl text-center text-gray-400 italic">
+                數據顯示區域 (待對接)
+            </div>
+        </div>
+    </div>
+
+    <div id="portfolio-page" class="page min-h-screen bg-white p-6">
+        <nav class="flex items-center mb-6">
+            <button onclick="showPage('main-hub')" class="text-blue-600 mr-4"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+            <h2 class="text-xl font-bold">個人持股清單</h2>
+        </nav>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b-2 border-gray-100">
+                        <th class="py-3 px-2 text-gray-500 font-medium">代號</th>
+                        <th class="py-3 px-2 text-gray-500 font-medium">現價</th>
+                        <th class="py-3 px-2 text-gray-500 font-medium">損益</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr><td colspan="3" class="py-10 text-center text-gray-400">載入中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="asset-page" class="page min-h-screen bg-white p-6 text-center">
+        <nav class="flex items-center mb-6 text-left">
+            <button onclick="showPage('main-hub')" class="text-blue-600 mr-4"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+            <h2 class="text-xl font-bold">個人資產統計</h2>
+        </nav>
+        <div class="bg-blue-50 p-6 rounded-3xl mb-6">
+            <p class="text-gray-500 text-sm">目前總資產</p>
+            <p class="text-3xl font-black text-blue-800 mt-2">$ --,---,---</p>
+        </div>
+        <div class="bg-gray-100 h-48 rounded-2xl flex items-center justify-center text-gray-400 mb-6">
+            圖表區域 (Chart.js 預留)
+        </div>
+        <button class="w-full bg-purple-600 text-white font-bold py-4 rounded-2xl shadow-lg active:bg-purple-700">
+            <i class="fa-solid fa-camera mr-2"></i> 紀錄今日資產快照
+        </button>
+    </div>
+
+    <script>
+        // 切換分頁的邏輯
+        function showPage(pageId) {
+            // 隱藏所有頁面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // 顯示指定頁面
+            document.getElementById(pageId).classList.add('active');
+            // 每次切換回頂部
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
