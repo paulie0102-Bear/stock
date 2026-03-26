@@ -3,146 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>資產管理中心</title>
+    <title>個人資產儀表板</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* 處理 iOS/Android 安全區域 */
         :root {
             --safe-top: env(safe-area-inset-top);
             --safe-bottom: env(safe-area-inset-bottom);
         }
-        body { padding-top: var(--safe-top); padding-bottom: var(--safe-bottom); }
-        .page { display: none; position: fixed; inset: 0; background: white; z-index: 50; padding-top: var(--safe-top); padding-bottom: var(--safe-bottom); }
-        .page.active { display: block; overflow-y: auto; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
-        .modal.active { display: flex; }
+        body { 
+            padding-top: var(--safe-top); 
+            padding-bottom: var(--safe-bottom); 
+            background-color: #f9fafb;
+        }
+        /* 全螢幕分頁樣式 */
+        .page { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: #ffffff; 
+            z-index: 50; 
+            padding-top: var(--safe-top); 
+            padding-bottom: var(--safe-bottom); 
+        }
+        .page.active { 
+            display: block; 
+            overflow-y: auto; 
+        }
+        /* 隱藏滾動條但保持功能 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="font-sans antialiased text-gray-900">
 
     <div id="main-hub" class="min-h-screen flex flex-col p-6 active">
-        <header class="mt-8 mb-10">
-            <h1 class="text-3xl font-black text-gray-800">Hi, 投資者</h1>
-            <p class="text-gray-500">掌握今日的資產動態</p>
+        <header class="mt-12 mb-10">
+            <h1 class="text-3xl font-black text-gray-800 tracking-tight">資產管理中心</h1>
+            <p class="text-gray-500 mt-2">Personal Wealth Dashboard</p>
         </header>
 
-        <div class="space-y-4">
-            <button onclick="showPage('stock-menu-page')" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between active:bg-gray-50">
+        <div class="grid grid-cols-1 gap-5">
+            <button onclick="showPage('stock-helper-page')" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between active:scale-95 transition-transform">
                 <div class="flex items-center">
-                    <div class="bg-blue-500 p-4 rounded-2xl text-white mr-4"><i class="fas fa-chart-pie"></i></div>
-                    <div class="text-left"><p class="font-bold text-lg">股票儀表板</p><p class="text-xs text-gray-400">即時行情與技術指標</p></div>
+                    <div class="bg-blue-600 p-4 rounded-2xl text-white mr-4 shadow-lg shadow-blue-100">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-bold text-lg text-gray-800">股票小幫手</p>
+                        <p class="text-xs text-gray-400">批次查詢與技術指標</p>
+                    </div>
                 </div>
                 <i class="fas fa-chevron-right text-gray-300"></i>
             </button>
 
-            <button onclick="showPage('portfolio-page')" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between active:bg-gray-50">
+            <button onclick="showPage('portfolio-page')" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between active:scale-95 transition-transform">
                 <div class="flex items-center">
-                    <div class="bg-emerald-500 p-4 rounded-2xl text-white mr-4"><i class="fas fa-layer-group"></i></div>
-                    <div class="text-left"><p class="font-bold text-lg">個人持股</p><p class="text-xs text-gray-400">目前庫存損益明細</p></div>
+                    <div class="bg-emerald-500 p-4 rounded-2xl text-white mr-4 shadow-lg shadow-emerald-100">
+                        <i class="fas fa-briefcase text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-bold text-lg text-gray-800">個人持股</p>
+                        <p class="text-xs text-gray-400">庫存損益即時清單</p>
+                    </div>
                 </div>
                 <i class="fas fa-chevron-right text-gray-300"></i>
             </button>
 
-            <button onclick="showPage('asset-page')" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between active:bg-gray-50">
+            <button onclick="showPage('asset-page')" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between active:scale-95 transition-transform">
                 <div class="flex items-center">
-                    <div class="bg-indigo-500 p-4 rounded-2xl text-white mr-4"><i class="fas fa-wallet"></i></div>
-                    <div class="text-left"><p class="font-bold text-lg">個人資產</p><p class="text-xs text-gray-400">總資產配置與快照</p></div>
+                    <div class="bg-indigo-600 p-4 rounded-2xl text-white mr-4 shadow-lg shadow-indigo-100">
+                        <i class="fas fa-wallet text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-bold text-lg text-gray-800">個人資產</p>
+                        <p class="text-xs text-gray-400">總額統計與歷史快照</p>
+                    </div>
                 </div>
                 <i class="fas fa-chevron-right text-gray-300"></i>
             </button>
         </div>
     </div>
 
-    <div id="stock-menu-page" class="page px-6">
-        <header class="flex items-center py-4 mb-6">
-            <button onclick="hidePage('stock-menu-page')" class="p-2 -ml-2 text-gray-400"><i class="fas fa-arrow-left"></i></button>
-            <h2 class="text-xl font-bold ml-2">選擇市場</h2>
-        </header>
-        <div class="grid grid-cols-2 gap-4">
-            <button onclick="showPage('tw-stock-page')" class="aspect-square bg-orange-50 rounded-3xl flex flex-col items-center justify-center border border-orange-100">
-                <span class="text-4xl mb-2">🇹🇼</span><span class="font-bold text-orange-800">台股</span>
+    <div id="stock-helper-page" class="page px-6 pb-10">
+        <nav class="flex items-center py-6 sticky top-0 bg-white z-10">
+            <button onclick="hidePage('stock-helper-page')" class="p-2 -ml-2 text-blue-600">
+                <i class="fas fa-arrow-left text-xl"></i>
             </button>
-            <button onclick="alert('美股開發中')" class="aspect-square bg-blue-50 rounded-3xl flex flex-col items-center justify-center border border-blue-100 text-blue-800">
-                <span class="text-4xl mb-2">🇺🇸</span><span class="font-bold">美股</span>
+            <h2 class="text-xl font-bold ml-2">股票小幫手</h2>
+        </nav>
+
+        <div class="bg-gray-50 rounded-3xl p-5 mb-6">
+            <p class="text-sm font-bold text-gray-500 mb-4 px-1">請輸入 10 組股票代號 (B12-B21)</p>
+            <div id="stock-inputs-container" class="grid grid-cols-2 gap-3">
+                </div>
+            <button onclick="updateStocksAPI()" id="query-btn" class="w-full bg-blue-600 text-white font-black py-4 rounded-2xl mt-6 shadow-xl shadow-blue-200 active:scale-95 transition-transform">
+                <i class="fas fa-sync-alt mr-2"></i> 同步至試算表查詢
             </button>
         </div>
-    </div>
 
-    <div id="tw-stock-page" class="page px-6">
-        <header class="flex items-center py-4 mb-4 border-b">
-            <button onclick="hidePage('tw-stock-page')" class="p-2 -ml-2 text-gray-400"><i class="fas fa-arrow-left"></i></button>
-            <h2 class="text-xl font-bold ml-2">台股行情</h2>
-        </header>
-        
-        <div id="tw-stock-content" class="text-center py-20 text-gray-400 italic">
-            目前無數據，請點擊下方 + 新增查詢
+        <div id="stock-results-list" class="space-y-4">
+            <p class="text-center text-gray-400 py-10 italic">尚未進行查詢</p>
         </div>
-
-        <button onclick="openModal('add-stock-modal')" class="fixed bottom-10 right-8 bg-blue-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl active:scale-90 transition-transform" style="bottom: calc(2.5rem + var(--safe-bottom));">
-            <i class="fas fa-plus"></i>
-        </button>
     </div>
 
     <div id="portfolio-page" class="page px-6">
-        <header class="flex items-center py-4 mb-4 border-b">
-            <button onclick="hidePage('portfolio-page')" class="p-2 -ml-2 text-gray-400"><i class="fas fa-arrow-left"></i></button>
-            <h2 class="text-xl font-bold ml-2">個人持股</h2>
-        </header>
-        <p class="text-center py-10 text-gray-400">數據載入中...</p>
-    </div>
-
-    <div id="asset-page" class="page px-6">
-        <header class="flex items-center py-4 mb-4 border-b">
-            <button onclick="hidePage('asset-page')" class="p-2 -ml-2 text-gray-400"><i class="fas fa-arrow-left"></i></button>
-            <h2 class="text-xl font-bold ml-2">個人資產</h2>
-        </header>
-        <div class="bg-gray-100 h-40 rounded-3xl flex items-center justify-center text-gray-400 mb-6">資產佔比圓餅圖</div>
-        <button class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold">📸 紀錄今日快照</button>
-    </div>
-
-    <div id="add-stock-modal" class="modal px-6">
-        <div class="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl">
-            <div class="bg-blue-600 p-6 text-white text-center">
-                <i class="fas fa-search text-3xl mb-2"></i>
-                <h3 class="text-lg font-bold">新增查詢標的</h3>
-            </div>
-            <div class="p-6">
-                <label class="block text-sm text-gray-500 mb-2">股票代號</label>
-                <input id="stock-input" type="text" placeholder="例如: 2330" class="w-full bg-gray-100 border-none rounded-xl p-4 text-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                <div class="flex gap-3 mt-6">
-                    <button onclick="closeModal('add-stock-modal')" class="flex-1 py-3 text-gray-400 font-bold">取消</button>
-                    <button onclick="submitStock()" class="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold shadow-lg">確認送出</button>
-                </div>
-            </div>
+        <nav class="flex items-center py-6 border-b">
+            <button onclick="hidePage('portfolio-page')" class="p-2 -ml-2 text-blue-600">
+                <i class="fas fa-arrow-left text-xl"></i>
+            </button>
+            <h2 class="text-xl font-bold ml-2">個人持股清單</h2>
+        </nav>
+        <div class="py-10 text-center text-gray-400">
+            <i class="fas fa-box-open text-4xl mb-3 block"></i>
+            持股功能開發中...
         </div>
     </div>
 
+    <div id="asset-page" class="page px-6">
+        <nav class="flex items-center py-6">
+            <button onclick="hidePage('asset-page')" class="p-2 -ml-2 text-blue-600">
+                <i class="fas fa-arrow-left text-xl"></i>
+            </button>
+            <h2 class="text-xl font-bold ml-2">個人資產統計</h2>
+        </nav>
+        <div class="bg-indigo-50 p-8 rounded-[2rem] text-center mb-6">
+            <p class="text-indigo-400 text-sm font-medium">目前資產總額</p>
+            <p class="text-3xl font-black text-indigo-900 mt-2 tracking-tight">$ --,---,---</p>
+        </div>
+        <div class="bg-gray-100 h-48 rounded-[2rem] flex items-center justify-center text-gray-400 mb-8 italic">
+            趨勢折線圖預留區
+        </div>
+        <button onclick="alert('快照功能開發中')" class="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl shadow-lg shadow-indigo-100 flex items-center justify-center">
+            <i class="fas fa-camera mr-2"></i> 紀錄今日資產快照
+        </button>
+    </div>
+
     <script>
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbw1INWKwNBCPiwsJy3QHRghfZ60GpkkXBPChgabgcHxVDt0bDiIDabxbo1JkEBZxbpZ/exec";
+
+        // 自動產生 10 個輸入框
+        const inputContainer = document.getElementById('stock-inputs-container');
+        for (let i = 1; i <= 10; i++) {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = `代號 ${i}`;
+            input.className = 'stock-batch-input w-full bg-white border-none rounded-xl p-3 text-center font-bold text-blue-600 shadow-sm focus:ring-2 focus:ring-blue-500 outline-none';
+            inputContainer.appendChild(input);
+        }
+
+        // 頁面切換函式
         function showPage(id) {
             document.getElementById(id).classList.add('active');
         }
         function hidePage(id) {
             document.getElementById(id).classList.remove('active');
         }
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            document.getElementById('stock-input').focus();
-        }
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
 
-        // 送出股票代號的邏輯
-        function submitStock() {
-            const stockId = document.getElementById('stock-input').value;
-            if (!stockId) return alert('請輸入代號');
+        // 股票小幫手：批次更新與查詢
+        async function updateStocksAPI() {
+            const inputs = document.querySelectorAll('.stock-batch-input');
+            const ids = Array.from(inputs).map(input => input.value).join(',');
+            const btn = document.getElementById('query-btn');
             
-            // 這裡未來會接 Google Apps Script
-            alert('已送出代號: ' + stockId + '\n系統正在填入試算表...');
-            
-            closeModal('add-stock-modal');
-            document.getElementById('stock-input').value = '';
+            if (ids.replace(/,/g, '') === "") return alert("請至少輸入一個股票代號");
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> 雲端運算中...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${GAS_URL}?action=updateStocks&ids=${ids}`);
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    const listContainer = document.getElementById('stock-results-list');
+                    listContainer.innerHTML = ''; // 清空提示
+
+                    result.data.forEach((item, index) => {
+                        if (!item.price) return; // 跳過空白格
+                        
+                        const card = `
+                            <div class="bg-white border border-gray-100 rounded-3xl p-5 shadow-sm">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <p class="text-xs text-gray-400">標的 ${index + 1}</p>
+                                        <p class="text-xl font-black text-gray-800">${inputs[index].value}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs text-gray-400">最新股價</p>
+                                        <p class="text-2xl font-black text-blue-600">$ ${item.price}</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3 mb-4">
+                                    <div class="bg-gray-50 p-3 rounded-2xl">
+                                        <p class="text-[10px] text-gray-400 uppercase">法人買賣超</p>
+                                        <p class="font-bold text-sm ${parseFloat(item.total) >= 0 ? 'text-red-500' : 'text-green-600'}">${item.total}</p>
+                                    </div>
+                                    <div class="bg-gray-50 p-3 rounded-2xl text-center">
+                                        <p class="text-[10px] text-gray-400 uppercase">MA 趨勢</p>
+                                        <p class="font-bold text-sm">${item.trend}</p>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between text-[11px] text-gray-500 border-t pt-3 px-1">
+                                    <span>MA20: ${item.ma20}</span>
+                                    <span>MA40: ${item.ma40}</span>
+                                    <span>MA60: ${item.ma60}</span>
+                                </div>
+                            </div>
+                        `;
+                        listContainer.innerHTML += card;
+                    });
+                }
+            } catch (error) {
+                alert("連線超時，請檢查 GAS 部署是否正確設定為「任何人」");
+            } finally {
+                btn.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> 同步至試算表查詢';
+                btn.disabled = false;
+            }
         }
     </script>
 </body>
