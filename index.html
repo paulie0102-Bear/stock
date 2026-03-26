@@ -181,35 +181,35 @@
                     result.data.forEach((item, index) => {
                         if (!item.price) return; // 跳過空白格
                         
-                        const card = `
-                            <div class="bg-white border border-gray-100 rounded-3xl p-5 shadow-sm">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div>
-                                        <p class="text-xs text-gray-400">標的 ${index + 1}</p>
-                                        <p class="text-xl font-black text-gray-800">${inputs[index].value}</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="text-xs text-gray-400">最新股價</p>
-                                        <p class="text-2xl font-black text-blue-600">$ ${item.price}</p>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-3 mb-4">
-                                    <div class="bg-gray-50 p-3 rounded-2xl">
-                                        <p class="text-[10px] text-gray-400 uppercase">法人買賣超</p>
-                                        <p class="font-bold text-sm ${parseFloat(item.total) >= 0 ? 'text-red-500' : 'text-green-600'}">${item.total}</p>
-                                    </div>
-                                    <div class="bg-gray-50 p-3 rounded-2xl text-center">
-                                        <p class="text-[10px] text-gray-400 uppercase">MA 趨勢</p>
-                                        <p class="font-bold text-sm">${item.trend}</p>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between text-[11px] text-gray-500 border-t pt-3 px-1">
-                                    <span>MA20: ${item.ma20}</span>
-                                    <span>MA40: ${item.ma40}</span>
-                                    <span>MA60: ${item.ma60}</span>
-                                </div>
-                            </div>
-                        `;
+                        // 在 updateStocksAPI 函式的 result.data.forEach 中替換以下 HTML 結構
+const card = `
+    <div class="bg-white border border-gray-100 rounded-3xl p-5 shadow-sm">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center">
+                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded mr-2">${inputs[index].value}</span>
+                <p class="text-base font-bold text-gray-800">${item.name || '查無名稱'}</p>
+            </div>
+            <p class="text-base font-black text-blue-600">$ ${item.price}</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
+            <div class="bg-gray-50 p-3 rounded-2xl">
+                <p class="text-gray-400 text-xs mb-1">三大法人買賣</p>
+                <p class="font-bold ${parseFloat(item.total) >= 0 ? 'text-red-500' : 'text-green-600'}">${item.total}</p>
+            </div>
+            <div class="bg-gray-50 p-3 rounded-2xl">
+                <p class="text-gray-400 text-xs mb-1">MA 趨勢方向</p>
+                <p class="font-bold text-gray-800">${item.trend}</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-1 bg-gray-50 p-3 rounded-xl text-sm text-gray-600 text-center">
+            <div><p class="text-[10px] text-gray-400">MA20</p><p class="font-medium">${item.ma20}</p></div>
+            <div><p class="text-[10px] text-gray-400">MA40</p><p class="font-medium">${item.ma40}</p></div>
+            <div><p class="text-[10px] text-gray-400">MA60</p><p class="font-medium">${item.ma60}</p></div>
+        </div>
+    </div>
+`;
                         listContainer.innerHTML += card;
                     });
                 }
